@@ -128,7 +128,7 @@ $stmt = $pdo->query($sql);
 
     <!-- Table section with container -->
     <div class="table-container">
-        <h2>All coffee_flavors in Database</h2>
+        <h2>All Coffee Flavors in Database</h2>
         <table class="half-width-left-align">
             <thead>
                 <tr>
@@ -137,6 +137,7 @@ $stmt = $pdo->query($sql);
                     <th>name</th>
                     <th>distributer</th>
                     <th>Actions</th>
+                    <th>Temp Banned</th>
                 </tr>
             </thead>
             <tbody>
@@ -149,7 +150,7 @@ $stmt = $pdo->query($sql);
                     <td>
                         <form action="index5.php" method="post" style="display:inline;">
                             <input type="hidden" name="delete_id" value="<?php echo $row['id']; ?>">
-                            <input type="submit" value="Ban!">
+                            <input type="submit" value="Temp Ban!">
                         </form>
                     </td>
                 </tr>
