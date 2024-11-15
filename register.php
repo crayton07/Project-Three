@@ -15,8 +15,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         
         if ($password !== $confirm_password) {
             $error_message = 'Passwords do not match';
-        } else if (strlen($password) < 6) {
-            $error_message = 'Password must be at least 6 characters';
+        } else if (strlen($password) < 5) {
+            $error_message = 'Password must be at least 5 characters';
         } else {
             if (register_user($pdo, $username, $password)) {
                 $success_message = 'Registration successful! You can now login.';
@@ -32,7 +32,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Register - Betty's Book Banning</title>
+    <title>Register - Betty's Cofee Banning</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>

@@ -11,7 +11,7 @@ if (!is_logged_in()) {
 }
 
 $host = 'db'; 
-$dbname = 'books'; 
+$dbname = 'coffee_flavors'; 
 $user = 'root'; 
 $pass = 'root';
 $charset = 'utf8mb4';
@@ -29,11 +29,11 @@ try {
     throw new PDOException($e->getMessage(), (int)$e->getCode());
 }
 
-// Handle book search
+// Handle Cofee search
 $search_results = null;
 if (isset($_GET['search']) && !empty($_GET['search'])) {
     $search_term = '%' . $_GET['search'] . '%';
-    $search_sql = 'SELECT id, author, title, publisher FROM books WHERE title LIKE :search';
+    $search_sql = 'SELECT id, imported, name, distributer FROM coffee_flavors WHERE name LIKE :search';
     $search_stmt = $pdo->prepare($search_sql);
     $search_stmt->execute(['search' => $search_term]);
     $search_results = $search_stmt->fetchAll();
@@ -41,27 +41,27 @@ if (isset($_GET['search']) && !empty($_GET['search'])) {
 
 // Handle form submissions
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    if (isset($_POST['author']) && isset($_POST['title']) && isset($_POST['publisher'])) {
+    if (isset($_POST['imported']) && isset($_POST['name']) && isset($_POST['distributer'])) {
         // Insert new entry
-        $author = htmlspecialchars($_POST['author']);
-        $title = htmlspecialchars($_POST['title']);
-        $publisher = htmlspecialchars($_POST['publisher']);
+        $imported = htmlspecialchars($_POST['imported']);
+        $name = htmlspecialchars($_POST['name']);
+        $distributer = htmlspecialchars($_POST['distributer']);
         
-        $insert_sql = 'INSERT INTO books (author, title, publisher) VALUES (:author, :title, :publisher)';
+        $insert_sql = 'INSERT INTO coffee_flavors (imported, name, distributer) VALUES (:imported, :name, :distributer)';
         $stmt_insert = $pdo->prepare($insert_sql);
-        $stmt_insert->execute(['author' => $author, 'title' => $title, 'publisher' => $publisher]);
+        $stmt_insert->execute(['imported' => $imported, 'name' => $name, 'distributer' => $distributer]);
     } elseif (isset($_POST['delete_id'])) {
         // Delete an entry
         $delete_id = (int) $_POST['delete_id'];
         
-        $delete_sql = 'DELETE FROM books WHERE id = :id';
+        $delete_sql = 'DELETE FROM coffee_flavors WHERE id = :id';
         $stmt_delete = $pdo->prepare($delete_sql);
         $stmt_delete->execute(['id' => $delete_id]);
     }
 }
 
-// Get all books for main table
-$sql = 'SELECT id, author, title, publisher FROM books';
+// Get all coffee_flavors for main table
+$sql = 'SELECT id, imported, name, distributer FROM coffee_flavors';
 $stmt = $pdo->query($sql);
 ?>
 
@@ -69,23 +69,20 @@ $stmt = $pdo->query($sql);
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Betty's Book Banning and Bridge Building</title>
+    <name>Betty's Cofee Banning and Bridge Building</name>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <h1>
-        This is just a random edit
-    </h1>
     <!-- Hero Section -->
     <div class="hero-section">
-        <h1 class="hero-title">Betty's Book Banning and Bridge Building</h1>
-        <p class="hero-subtitle">"Because nothing brings a community together like collectively deciding what others shouldn't read!"</p>
+        <h1 class="hero-name">Betty's Cofee Banning and Bridge Building</h1>
+        <p class="hero-subname">"Because nothing brings a community together like collectively deciding what others shouldn't read!"</p>
         
         <!-- Search moved to hero section -->
         <div class="hero-search">
-            <h2>Search for a Book to Ban</h2>
+            <h2>Search for a Cofee to Ban</h2>
             <form action="" method="GET" class="search-form">
-                <label for="search">Search by Title:</label>
+                <label for="search">Search by name:</label>
                 <input type="text" id="search" name="search" required>
                 <input type="submit" value="Search">
             </form>
@@ -98,9 +95,9 @@ $stmt = $pdo->query($sql);
                             <thead>
                                 <tr>
                                     <th>ID</th>
-                                    <th>Author</th>
-                                    <th>Title</th>
-                                    <th>Publisher</th>
+                                    <th>imported</th>
+                                    <th>name</th>
+                                    <th>distributer</th>
                                     <th>Actions</th>
                                 </tr>
                             </thead>
@@ -108,9 +105,9 @@ $stmt = $pdo->query($sql);
                                 <?php foreach ($search_results as $row): ?>
                                 <tr>
                                     <td><?php echo htmlspecialchars($row['id']); ?></td>
-                                    <td><?php echo htmlspecialchars($row['author']); ?></td>
-                                    <td><?php echo htmlspecialchars($row['title']); ?></td>
-                                    <td><?php echo htmlspecialchars($row['publisher']); ?></td>
+                                    <td><?php echo htmlspecialchars($row['imported']); ?></td>
+                                    <td><?php echo htmlspecialchars($row['name']); ?></td>
+                                    <td><?php echo htmlspecialchars($row['distributer']); ?></td>
                                     <td>
                                         <form action="index5.php" method="post" style="display:inline;">
                                             <input type="hidden" name="delete_id" value="<?php echo $row['id']; ?>">
@@ -122,7 +119,7 @@ $stmt = $pdo->query($sql);
                             </tbody>
                         </table>
                     <?php else: ?>
-                        <p>No books found matching your search.</p>
+                        <p>No coffee_flavors found matching your search.</p>
                     <?php endif; ?>
                 </div>
             <?php endif; ?>
@@ -131,14 +128,14 @@ $stmt = $pdo->query($sql);
 
     <!-- Table section with container -->
     <div class="table-container">
-        <h2>All Books in Database</h2>
+        <h2>All coffee_flavors in Database</h2>
         <table class="half-width-left-align">
             <thead>
                 <tr>
                     <th>ID</th>
-                    <th>Author</th>
-                    <th>Title</th>
-                    <th>Publisher</th>
+                    <th>imported</th>
+                    <th>name</th>
+                    <th>distributer</th>
                     <th>Actions</th>
                 </tr>
             </thead>
@@ -146,9 +143,9 @@ $stmt = $pdo->query($sql);
                 <?php while ($row = $stmt->fetch()): ?>
                 <tr>
                     <td><?php echo htmlspecialchars($row['id']); ?></td>
-                    <td><?php echo htmlspecialchars($row['author']); ?></td>
-                    <td><?php echo htmlspecialchars($row['title']); ?></td>
-                    <td><?php echo htmlspecialchars($row['publisher']); ?></td>
+                    <td><?php echo htmlspecialchars($row['imported']); ?></td>
+                    <td><?php echo htmlspecialchars($row['name']); ?></td>
+                    <td><?php echo htmlspecialchars($row['distributer']); ?></td>
                     <td>
                         <form action="index5.php" method="post" style="display:inline;">
                             <input type="hidden" name="delete_id" value="<?php echo $row['id']; ?>">
@@ -163,18 +160,18 @@ $stmt = $pdo->query($sql);
 
     <!-- Form section with container -->
     <div class="form-container">
-        <h2>Condemn a Book Today</h2>
+        <h2>Condemn a Cofee Today</h2>
         <form action="index5.php" method="post">
-            <label for="author">Author:</label>
-            <input type="text" id="author" name="author" required>
+            <label for="imported">imported:</label>
+            <input type="text" id="imported" name="imported" required>
             <br><br>
-            <label for="title">Title:</label>
-            <input type="text" id="title" name="title" required>
+            <label for="name">name:</label>
+            <input type="text" id="name" name="name" required>
             <br><br>
-            <label for="publisher">Publisher:</label>
-            <input type="text" id="publisher" name="publisher" required>
+            <label for="distributer">distributer:</label>
+            <input type="text" id="distributer" name="distributer" required>
             <br><br>
-            <input type="submit" value="Condemn Book">
+            <input type="submit" value="Condemn Cofee">
         </form>
     </div>
 </body>

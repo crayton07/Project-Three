@@ -1,7 +1,7 @@
 <?php
 // config.php - Database configuration
 $host = 'db'; 
-$dbname = 'books'; 
+$dbname = 'coffee_flavors'; 
 $user = 'root'; 
 $pass = 'root';
 $charset = 'utf8mb4';
