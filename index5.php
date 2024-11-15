@@ -61,7 +61,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 }
 
 // Get all coffee_flavors for main table
-$sql = 'SELECT id, imported, name, distributer FROM coffee_flavors';
+$sql = 'SELECT id, imported, name, distributer, temp_ban FROM coffee_flavors';
 $stmt = $pdo->query($sql);
 ?>
 
@@ -136,8 +136,8 @@ $stmt = $pdo->query($sql);
                     <th>imported</th>
                     <th>name</th>
                     <th>distributer</th>
-                    <th>Actions</th>
                     <th>Temp Banned</th>
+                    <th>Actions</th>
                 </tr>
             </thead>
             <tbody>
@@ -147,6 +147,7 @@ $stmt = $pdo->query($sql);
                     <td><?php echo htmlspecialchars($row['imported']); ?></td>
                     <td><?php echo htmlspecialchars($row['name']); ?></td>
                     <td><?php echo htmlspecialchars($row['distributer']); ?></td>
+                    <td><?php echo htmlspecialchars($row['temp_ban']); ?></td>
                     <td>
                         <form action="index5.php" method="post" style="display:inline;">
                             <input type="hidden" name="delete_id" value="<?php echo $row['id']; ?>">
