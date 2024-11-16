@@ -59,15 +59,15 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $stmt_delete->execute(['id' => $delete_id]);
     }
     elseif (isset($_POST['out_of_stock'])) {
-        // Delete an entry
-        $delete_id = (int) $_POST['delete_id'];
+        // Set Temp_ban to yes
+        $update_id = (int) $_POST['update_id'];
         
-        $delete_sql = 'DELETE FROM coffee_flavors WHERE id = :id';
-        $stmt_delete = $pdo->prepare($delete_sql);
-        $stmt_delete->execute(['id' => $delete_id]);
+        $update_sql = 'update coffee_flavors SET temp_ban = "yes" WHERE id = :id';
+        $stmt_update = $pdo->prepare($update_sql);
+        $stmt_update->execute(['id' => $update_id]);
     }
     elseif (isset($_POST['restore'])) {
-        // Delete an entry
+        // Set Temp_ban variable to no
         $delete_id = (int) $_POST['delete_id'];
         
         $delete_sql = 'DELETE FROM coffee_flavors WHERE id = :id';
