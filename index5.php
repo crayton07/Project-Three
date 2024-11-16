@@ -29,7 +29,7 @@ try {
     throw new PDOException($e->getMessage(), (int)$e->getCode());
 }
 
-// Handle Cofee search
+// Handle Coffee search
 $search_results = null;
 if (isset($_GET['search']) && !empty($_GET['search'])) {
     $search_term = '%' . $_GET['search'] . '%';
@@ -63,24 +63,27 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 // Get all coffee_flavors for main table
 $sql = 'SELECT id, imported, name, distributer, temp_ban FROM coffee_flavors';
 $stmt = $pdo->query($sql);
+
+$sql2 = 'SELECT id, imported, name, distributer, temp_ban FROM coffee_flavors';
+$statement = $pdo->query($sql2);
 ?>
 
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <name>Betty's Cofee Banning and Bridge Building</name>
+    <name>Betty's Coffee Banning and Bridge Building</name>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <!-- Hero Section -->
     <div class="hero-section">
-        <h1 class="hero-name">Betty's Cofee Banning and Bridge Building</h1>
-        <p class="hero-subname">"Because nothing brings a community together like collectively deciding what others shouldn't read!"</p>
+        <h1 class="hero-name">Betty's Coffee Banning and Bridge Building</h1>
+        <p class="hero-subname">"Because some things should be banned!!!"</p>
         
         <!-- Search moved to hero section -->
         <div class="hero-search">
-            <h2>Search for a Cofee to Ban</h2>
+            <h2>Search for a Coffee to Ban</h2>
             <form action="" method="GET" class="search-form">
                 <label for="search">Search by name:</label>
                 <input type="text" id="search" name="search" required>
@@ -126,6 +129,13 @@ $stmt = $pdo->query($sql);
         </div>
     </div>
 
+    <table>
+
+<tr>
+
+<td>
+
+
     <!-- Table section with container -->
     <div class="table-container">
         <h2>All Coffee Flavors in Database</h2>
@@ -160,9 +170,41 @@ $stmt = $pdo->query($sql);
         </table>
     </div>
 
+    </td>
+    <td>
+
+    <div class="table-container">
+        <h2>All Coffee Flavors in Database</h2>
+        <table class="half-width-left-align">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>name</th>
+                    <th>Temp Banned</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php while ($row = $statement->fetch()): ?>
+                <tr>
+                    <td><?php echo htmlspecialchars($row['id']); ?></td>
+                    <td><?php echo htmlspecialchars($row['name']); ?></td>
+                    <td><?php echo htmlspecialchars($row['temp_ban']); ?></td>
+                    <td>
+                        <form action="index5.php" method="post" style="display:inline;">
+                            <input type="hidden" name="delete_id" value="<?php echo $row['id']; ?>">
+                            <input type="submit" value="Temp Ban!">
+                        </form>
+                    </td>
+                </tr>
+                <?php endwhile; ?>
+            </tbody>
+        </table>
+    </div>
+
     <!-- Form section with container -->
     <div class="form-container">
-        <h2>Condemn a Cofee Today</h2>
+        <h2>Condemn a Coffee Today</h2>
         <form action="index5.php" method="post">
             <label for="imported">imported:</label>
             <input type="text" id="imported" name="imported" required>
@@ -173,8 +215,14 @@ $stmt = $pdo->query($sql);
             <label for="distributer">distributer:</label>
             <input type="text" id="distributer" name="distributer" required>
             <br><br>
-            <input type="submit" value="Condemn Cofee">
+            <input type="submit" value="Condemn Coffee">
         </form>
     </div>
+
+    </td>
+    </tr>
+
+    </table>
+
 </body>
 </html>
