@@ -58,6 +58,23 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $stmt_delete = $pdo->prepare($delete_sql);
         $stmt_delete->execute(['id' => $delete_id]);
     }
+    elseif (isset($_POST['out_of_stock'])) {
+        // Delete an entry
+        $delete_id = (int) $_POST['delete_id'];
+        
+        $delete_sql = 'DELETE FROM coffee_flavors WHERE id = :id';
+        $stmt_delete = $pdo->prepare($delete_sql);
+        $stmt_delete->execute(['id' => $delete_id]);
+    }
+    elseif (isset($_POST['restore'])) {
+        // Delete an entry
+        $delete_id = (int) $_POST['delete_id'];
+        
+        $delete_sql = 'DELETE FROM coffee_flavors WHERE id = :id';
+        $stmt_delete = $pdo->prepare($delete_sql);
+        $stmt_delete->execute(['id' => $delete_id]);
+    }
+    
 }
 
 // Get all coffee_flavors for main table
@@ -147,7 +164,6 @@ $statement = $pdo->query($sql2);
                     <th>name</th>
                     <th>distributer</th>
                     <th>Temp Banned</th>
-                    <th>Actions</th>
                 </tr>
             </thead>
             <tbody>
@@ -161,7 +177,13 @@ $statement = $pdo->query($sql2);
                     <td>
                         <form action="index5.php" method="post" style="display:inline;">
                             <input type="hidden" name="delete_id" value="<?php echo $row['id']; ?>">
-                            <input type="submit" value="Temp Ban!">
+                            <input type="submit" value="Remove">
+                        </form>
+                    </td>
+                    <td>
+                        <form action="index5.php" method="post" style="display:inline;">
+                            <input type="hidden" name="delete_id" value="<?php echo $row['id']; ?>">
+                            <input type="submit" value="Out of Stock">
                         </form>
                     </td>
                 </tr>
@@ -193,7 +215,7 @@ $statement = $pdo->query($sql2);
                     <td>
                         <form action="index5.php" method="post" style="display:inline;">
                             <input type="hidden" name="delete_id" value="<?php echo $row['id']; ?>">
-                            <input type="submit" value="Temp Ban!">
+                            <input type="submit" value="Rest">
                         </form>
                     </td>
                 </tr>
