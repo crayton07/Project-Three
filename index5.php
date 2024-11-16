@@ -67,12 +67,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $stmt_update->execute(['id' => $update_id]);
     }
     elseif (isset($_POST['restore'])) {
-        // Set Temp_ban variable to no
-        $delete_id = (int) $_POST['delete_id'];
+        // Set Temp_ban to yes
+        $update_id = (int) $_POST['update_id'];
         
-        $delete_sql = 'DELETE FROM coffee_flavors WHERE id = :id';
-        $stmt_delete = $pdo->prepare($delete_sql);
-        $stmt_delete->execute(['id' => $delete_id]);
+        $update_sql = 'update coffee_flavors SET temp_ban = "no" WHERE id = :id';
+        $stmt_update = $pdo->prepare($update_sql);
+        $stmt_update->execute(['id' => $update_id]);
     }
     
 }
@@ -89,18 +89,18 @@ $statement = $pdo->query($sql2);
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <name>Betty's Coffee Banning and Bridge Building</name>
+    <name>Betty's Coffees</name>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <!-- Hero Section -->
     <div class="hero-section">
-        <h1 class="hero-name">Betty's Coffee Banning and Bridge Building</h1>
-        <p class="hero-subname">"Because some things should be banned!!!"</p>
+        <h1 class="hero-name">Betty's Coffee Inventory Check</h1>
+        <p class="hero-subname">"Keep track of your stuff!!!"</p>
         
         <!-- Search moved to hero section -->
         <div class="hero-search">
-            <h2>Search for a Coffee to Ban</h2>
+            <h2>Search for a Coffee Flavor by name</h2>
             <form action="" method="GET" class="search-form">
                 <label for="search">Search by name:</label>
                 <input type="text" id="search" name="search" required>
@@ -202,7 +202,7 @@ $statement = $pdo->query($sql2);
                 <tr>
                     <th>ID</th>
                     <th>name</th>
-                    <th>Temp Banned</th>
+                    <th>Temp Out</th>
                     <th>Actions</th>
                 </tr>
             </thead>
@@ -214,8 +214,8 @@ $statement = $pdo->query($sql2);
                     <td><?php echo htmlspecialchars($row['temp_ban']); ?></td>
                     <td>
                         <form action="index5.php" method="post" style="display:inline;">
-                            <input type="hidden" name="delete_id" value="<?php echo $row['id']; ?>">
-                            <input type="submit" value="Reset">
+                            <input type="hidden" name="update_id" value="<?php echo $row['id']; ?>">
+                            <input type="submit" name="restore" value = "Restore">
                         </form>
                     </td>
                 </tr>
@@ -226,7 +226,7 @@ $statement = $pdo->query($sql2);
 
     <!-- Form section with container -->
     <div class="form-container">
-        <h2>Condemn a Coffee Today</h2>
+        <h2>Add your favorite Coffee Today!!!</h2>
         <form action="index5.php" method="post">
             <label for="imported">imported:</label>
             <input type="text" id="imported" name="imported" required>
