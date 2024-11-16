@@ -237,7 +237,7 @@ $statement = $pdo->query($sql2);
             <label for="distributer">distributer:</label>
             <input type="text" id="distributer" name="distributer" required>
             <br><br>
-            <input type="submit" value="Condemn Coffee">
+            <input type="submit" value="Add Coffee">
         </form>
     </div>
 
