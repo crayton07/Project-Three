@@ -78,10 +78,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 }
 
 // Get all coffee_flavors for main table
-$sql = 'SELECT id, imported, name, distributer, temp_ban FROM coffee_flavors';
+$sql = 'SELECT id, imported, name, distributer, temp_ban FROM coffee_flavors WHERE temp_ban = "no"';
 $stmt = $pdo->query($sql);
 
-$sql2 = 'SELECT id, imported, name, distributer, temp_ban FROM coffee_flavors';
+$sql2 = 'SELECT id, name, temp_ban FROM coffee_flavors WHERE temp_ban = "yes"';
 $statement = $pdo->query($sql2);
 ?>
 
@@ -182,8 +182,8 @@ $statement = $pdo->query($sql2);
                     </td>
                     <td>
                         <form action="index5.php" method="post" style="display:inline;">
-                            <input type="hidden" name="delete_id" value="<?php echo $row['id']; ?>">
-                            <input type="submit" value="Out of Stock">
+                            <input type="hidden" name="update_id" value="<?php echo $row['id']; ?>">
+                            <input type="submit" name="out_of_stock" value = "Out Of Stock">
                         </form>
                     </td>
                 </tr>
@@ -215,7 +215,7 @@ $statement = $pdo->query($sql2);
                     <td>
                         <form action="index5.php" method="post" style="display:inline;">
                             <input type="hidden" name="delete_id" value="<?php echo $row['id']; ?>">
-                            <input type="submit" value="Rest">
+                            <input type="submit" value="Reset">
                         </form>
                     </td>
                 </tr>
